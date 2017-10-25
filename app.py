@@ -1,7 +1,6 @@
 from flask import Flask
 from flask import render_template
 from flask_mysqldb import MySQL
-from flask_prometheus import monitor
 mysql = MySQL()
 app = Flask(__name__)
 # My SQL Instance configurations 
@@ -9,7 +8,7 @@ app = Flask(__name__)
  
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'Password'
-app.config['MYSQL_DB'] = 'lab56sqldb'
+app.config['MYSQL_DB'] = 'tododb'
 app.config['MYSQL_HOST'] = '35.187.6.127'
 mysql.init_app(app)
 
@@ -17,6 +16,7 @@ mysql.init_app(app)
 @app.route('/<name>')
 def statichtml(name=None):
     return render_template('index.html', name=name)
+
 
 # The first route to access the webservice from http://35.190.217.3:5000/ 
 #@pp.route("/add") this will create a new endpoints that can be accessed using http://external-ip:5000/add
@@ -60,5 +60,5 @@ def delete(name=None):
     return render_template('index.html', name="User recored was deleted")      #Return the data in a string format
 
 if __name__ == "__main__":
-        monitor(app, port=8000)
-        app.run(host='0.0.0.0', port='5000')
+        app.run(host='0.0.0.0', port='5000') #Run the flask app at port 5000
+
