@@ -33,28 +33,27 @@ def add(name=None):
     insert_stmt = (
                  "INSERT INTO todo (todoName) "
                  "VALUES (%s)")
-    data=(name)
+    data=(name,)
     cur.execute(insert_stmt, data)
     mysql.connection.commit()
     return render_template('index.html', name="New Record is added to the database")  
 
 @app.route("/update/<name>/<id>")
-def update(name=None):
+def update(name=None, id=None):
     cur=mysql.connection.cursor()
     update_stmt = (
         "UPDATE todo SET todoName = %s " 
-        "WHERE todoID = %d")
-    data=(name,)
+        "WHERE todoID = %s")
+    data=(name,int(id))
     cur.execute(update_stmt, data)
     mysql.connection.commit()
     return render_template('index.html', name="ToDo recored was updated")      #Return the data in a string format
 
-@app.route("/delete/<name>")
-def delete(name=None):
+@app.route("/delete/<id>")
+def delete(id=None):
     cur=mysql.connection.cursor()
-    delstatmt = "DELETE FROM todo WHERE todoName = ' {} ' ".format(name)
+    delstatmt = "DELETE FROM todo WHERE todoID = ' {} ' ".format(id)
     print(delstatmt)                
-   
     cur.execute(delstatmt)
     mysql.connection.commit()
     return render_template('index.html', name="User recored was deleted")      #Return the data in a string format
